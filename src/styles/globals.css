@@ -1,0 +1,30 @@
+
+.zoom-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: #81e6d9;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.zoom-slider::-webkit-slider-thumb:hover {
+  background-color: #62b9ae;
+  transform: scale(1.1)
+}
+
+.zoom-slider::-moz-range-thumb {
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: #81e6d9;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.zoom-slider::-moz-range-thumb:hover {
+  background-color: #62b9ae;
+  transform: scale(1.1)
+}
