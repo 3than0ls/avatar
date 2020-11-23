@@ -24,9 +24,14 @@ export default function Navbar({}) {
           <a className="text-3xl">Avatar</a>
         </Link>
         <NavbarSearch minimized={minimized} searchValue={searchValue} setSearchValue={setSearchValue} />
-        <Link href="/create" passHref>
-          <Button className={`w-1/12 ${minimized && 'py-2'}`}>Create</Button>
-        </Link>
+        <div className="flex flex-row w-1/6 ">
+          <Link href="/login" passHref>
+            <Button className={`w-1/2 ${minimized && 'py-2'} mx-4`}>Log In</Button>
+          </Link>
+          <Link href="/signup" passHref>
+            <Button className={`w-1/2 ${minimized && 'py-2'} mx-4`}>Sign Up</Button>
+          </Link>
+        </div>
       </div>
     </div>
   );

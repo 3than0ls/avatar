@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useDropzone } from 'react-dropzone';
 import validateImage from '~/utils/validateImage';
 import AvatarEditor from '~components/common/AvatarEditor';
+import imageService from '~/services/imageService';
 
 export default function Create() {
   const { register, handleSubmit, setError, setValue, errors, getValues, clearErrors } = useForm();
@@ -11,6 +12,16 @@ export default function Create() {
     contentType: '',
     preview: null,
     location: null,
+  });
+
+  const onSubmit = React.useCallback(async (e) => {
+    if (!e.name) {
+      setError('name', {});
+    }
+    const canvasImage = editorRef.current.getImageScaledToCanvas().toDataURL();
+    const data = { name: e.name, image: canvasImage };
+    imageService.create(data);
+    console.log(data);
   });
 
   const editorRef = React.useRef();
@@ -84,15 +95,6 @@ export default function Create() {
     onDropAccepted,
     maxFiles: 1,
     multiple: false,
-  });
-
-  const onSubmit = React.useCallback(async (e) => {
-    if (!e.name) {
-      setError('name', {});
-    }
-    const canvasImage = editorRef.current.getImageScaledToCanvas().toDataURL();
-    const data = { name: e.name, image: canvasImage };
-    console.log(data);
   });
 
   return (
