@@ -5,6 +5,7 @@ import { ImageContext } from '~/image-context';
 import ImageModal from '~components/ImageModal/ImageModal';
 import '~/styles/tailwind.css';
 import '~/styles/globals.css';
+import { firebaseService, FirebaseContext } from '../firebase/firebase';
 const seedrandom = require('seedrandom');
 
 function MyApp({ Component, pageProps }) {
@@ -22,19 +23,21 @@ function MyApp({ Component, pageProps }) {
   const [image, setImage] = React.useState({});
 
   return (
-    <ImageContext.Provider value={{ image, setImage, clearImage: () => setImage({}) }}>
-      <div
-        className={`w-full min-h-screen bg-gradient-to-${direction} 
-        from-${colorScheme[0]} via-${colorScheme[1]} to-${colorScheme[2]}`}
-      >
-        <Head>
-          <title>Avatar</title>
-        </Head>
-        {Object.keys(image).length > 0 && <ImageModal image={image} />}
-        <Navbar />
-        <Component {...pageProps} setImage={setImage} />
-      </div>
-    </ImageContext.Provider>
+    <FirebaseContext.Provider value={firebaseService}>
+      <ImageContext.Provider value={{ image, setImage, clearImage: () => setImage({}) }}>
+        <div
+          className={`w-full min-h-screen bg-gradient-to-${direction} 
+            from-${colorScheme[0]} via-${colorScheme[1]} to-${colorScheme[2]}`}
+        >
+          <Head>
+            <title>Avatar</title>
+          </Head>
+          {Object.keys(image).length > 0 && <ImageModal image={image} />}
+          <Navbar />
+          <Component {...pageProps} setImage={setImage} />
+        </div>
+      </ImageContext.Provider>
+    </FirebaseContext.Provider>
   );
 }
 

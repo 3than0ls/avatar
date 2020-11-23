@@ -21,7 +21,6 @@ export default function Create() {
     const canvasImage = editorRef.current.getImageScaledToCanvas().toDataURL();
     const data = { name: e.name, image: canvasImage };
     imageService.create(data);
-    console.log(data);
   });
 
   const editorRef = React.useRef();

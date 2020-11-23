@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// used in components
 class AuthService {
   constructor() {
     this.apiUrl = '/api/auth';
@@ -8,31 +9,22 @@ class AuthService {
 
   login({ email, password }) {
     const promise = axios.post('/api/auth/login', { email, password });
-    promise
-      .then((res) => console.log(res))
-      .catch((e) => {
-        console.log('from service error');
-      });
+
+    promise.then((res) => {}).catch((e) => {});
     return promise;
   }
 
   signup({ username, email, password }) {
     const promise = axios.post('/api/auth/signup', { username, email, password });
-    promise
-      .then((res) => console.log(res))
-      .catch((e) => {
-        console.log('from service error');
-      });
+
+    promise.then((res) => {}).catch((e) => {});
     return promise;
   }
 
   signout() {
     const promise = axios.post('/api/auth/signout');
-    promise
-      .then((res) => console.log(res))
-      .catch((e) => {
-        console.log('from service error');
-      });
+
+    promise.then((res) => {}).catch((e) => {});
     return promise;
   }
 }

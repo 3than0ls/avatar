@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import NavbarSearch from './NavbarSearch';
 import Button from '~components/common/Button';
+import { FirebaseContext } from '../../firebase/firebase';
 
 export default function Navbar({}) {
   const [minimized, setMinimized] = useState(false);
@@ -11,6 +12,7 @@ export default function Navbar({}) {
     };
   }, []);
 
+  const firebase = React.useContext(FirebaseContext);
   const [searchValue, setSearchValue] = useState('');
 
   return (
