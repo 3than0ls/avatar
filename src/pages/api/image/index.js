@@ -10,6 +10,7 @@ const images = [
     name: 'test',
   },
   {
+    id: 4,
     src: 'https://picsum.photos/300/300',
     name: 'test',
   },
@@ -21,10 +22,8 @@ const images = [
 ];
 
 export default function handler(req, res) {
-  console.log(req.query);
   const {
     query: { startAfter },
   } = req;
-  console.log(`accessing images starting from id ${startAfter} from db`);
   res.status(200).json(images);
 }

@@ -1,16 +1,30 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import validateEmail from '~/utils/validateEmail';
-import authService from '~/services/authService';
 import { signupSchema } from '~/schemas/authSchemas';
+import { useRouter } from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { FirebaseContext } from '~/firebase';
 
 export default function signup() {
   const { register, handleSubmit, errors, setError, clearErrors } = useForm({ resolver: yupResolver(signupSchema) });
+  const [generalError, setGeneralError] = React.useState('');
+  const { firebase } = React.useContext(FirebaseContext);
+  const router = useRouter();
 
-  const onSubmit = (e) => {
-    const { username, email, password } = e;
-    authService.signup({ username, email, password });
+  const onSubmit = async (e) => {
+    try {
+      const { username, email, password } = e;
+      await firebase.signUp({ username, email, password });
+      router.push('/', undefined, { shallow: true });
+    } catch (e) {
+      if (e.response.status === 400) {
+        // haha error handling goes brr
+        setError('email', { message: e.response.data.message });
+      } else {
+        setGeneralError('Server error, please try again.');
+      }
+    }
   };
 
   return (
@@ -19,6 +33,7 @@ export default function signup() {
         onSubmit={handleSubmit(onSubmit)}
         className="w-1/2 rounded-lg py-8 mx-auto bg-gray-100 text-center flex flex-col items-center"
       >
+        {generalError && <div className="text-red-500 my-2">{generalError}</div>}
         <span className="text-4xl mb-4">Create an Account</span>
         <label className="w-1/2 text-2xl mb-2">Username</label>
         {errors.name && <div className="text-red-500">{errors.name.message}</div>}
@@ -36,7 +51,6 @@ export default function signup() {
         {errors.email && <div className="text-red-500">{errors.email.message}</div>}
         <input
           name="email"
-          type="email"
           placeholder="Enter an email"
           ref={register}
           onChange={(e) => (validateEmail(e.target.value) ? clearErrors('email') : setError('email', {}))}

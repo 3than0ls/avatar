@@ -21,7 +21,7 @@ export default function ImageModal() {
 
   return (
     <div className="fixed text-center w-full h-screen bg-gray-800 bg-opacity-75 flex justify-center items-center overflow-hidden z-30">
-      <div className="relative w-full max-w-3xl h-auto max-h-full bg-white rounded-lg border border-gray-200 border-2 p-6">
+      <div className="relative w-full max-w-3xl h-auto max-h-full bg-white rounded-lg border-gray-200 border-2 p-6">
         <span onClick={clearImage} className="cursor-pointer">
           <Icon className="absolute m-4 top-0 right-0" name="exit" />
         </span>

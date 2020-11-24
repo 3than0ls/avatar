@@ -5,7 +5,7 @@ import { ImageContext } from '~/image-context';
 import ImageModal from '~components/ImageModal/ImageModal';
 import '~/styles/tailwind.css';
 import '~/styles/globals.css';
-import { firebaseService, FirebaseContext } from '../firebase/firebase';
+import firebase, { FirebaseContext } from '~/firebase';
 const seedrandom = require('seedrandom');
 
 function MyApp({ Component, pageProps }) {
@@ -22,8 +22,11 @@ function MyApp({ Component, pageProps }) {
 
   const [image, setImage] = React.useState({});
 
+  const [user, setUser] = React.useState({});
+  firebase.auth.onAuthStateChanged((user) => setUser(user));
+
   return (
-    <FirebaseContext.Provider value={firebaseService}>
+    <FirebaseContext.Provider value={{ firebase, user }}>
       <ImageContext.Provider value={{ image, setImage, clearImage: () => setImage({}) }}>
         <div
           className={`w-full min-h-screen bg-gradient-to-${direction} 

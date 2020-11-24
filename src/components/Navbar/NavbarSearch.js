@@ -9,7 +9,7 @@ const NavbarSearch = React.forwardRef(function Search(props, ref) {
   };
 
   return (
-    <div
+    <label
       className={`${
         minimized ? 'py-1' : 'py-3'
       } px-3 w-1/2 flex flex-row items-center bg-gray-200 rounded-md transition-all`}
@@ -28,7 +28,7 @@ const NavbarSearch = React.forwardRef(function Search(props, ref) {
         placeholder="Search for an image"
         ref={ref}
       />
-    </div>
+    </label>
   );
 });
 

@@ -7,25 +7,18 @@ class AuthService {
     this.fetcher = (...args) => fetch(...args).then((res) => res.json());
   }
 
-  login({ email, password }) {
-    const promise = axios.post('/api/auth/login', { email, password });
-
-    promise.then((res) => {}).catch((e) => {});
-    return promise;
+  async login({ email, password }) {
+    const { data } = await axios.post('/api/auth/login', { email, password });
+    return data;
   }
 
-  signup({ username, email, password }) {
-    const promise = axios.post('/api/auth/signup', { username, email, password });
-
-    promise.then((res) => {}).catch((e) => {});
-    return promise;
+  async signup({ username, email, password }) {
+    const { data } = await axios.post('/api/auth/signup', { username, email, password });
+    return data;
   }
 
-  signout() {
-    const promise = axios.post('/api/auth/signout');
-
-    promise.then((res) => {}).catch((e) => {});
-    return promise;
+  async signout() {
+    await axios.post('/api/auth/signout');
   }
 }
 

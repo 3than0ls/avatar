@@ -1,15 +1,23 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import authService from '~/services/authService';
+import { useRouter } from 'next/router';
 import { loginSchema } from '~/schemas/authSchemas';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { FirebaseContext } from '~/firebase';
 
 export default function login() {
   const { register, handleSubmit, errors } = useForm({ resolver: yupResolver(loginSchema) });
-
-  const onSubmit = (e) => {
-    const { username, email, password } = e;
-    authService.login({ username, email, password });
+  const [generalError, setGeneralError] = React.useState('');
+  const { firebase } = React.useContext(FirebaseContext);
+  const router = useRouter();
+  const onSubmit = async (e) => {
+    try {
+      const { email, password } = e;
+      await firebase.signIn({ email, password });
+      router.push('/', undefined, { shallow: true });
+    } catch (e) {
+      setGeneralError('Username/Password not found or does not exist.');
+    }
   };
 
   return (
@@ -18,6 +26,7 @@ export default function login() {
         onSubmit={handleSubmit(onSubmit)}
         className="w-1/2 rounded-lg py-8 mx-auto bg-gray-100 text-center flex flex-col items-center"
       >
+        {generalError && <div className="text-red-500 my-2">{generalError}</div>}
         <span className="text-4xl mb-4">Log In</span>
         <label className="w-1/2 text-2xl mb-2">Username</label>
         <label className="w-1/2 text-2xl mb-2">Email</label>
