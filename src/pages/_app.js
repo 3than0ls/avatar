@@ -11,12 +11,21 @@ const seedrandom = require('seedrandom');
 
 function MyApp({ Component, pageProps }) {
   const colorSchemes = [
-    ['blue-400', 'teal-400', 'purple-500'],
-    ['red-600', 'yellow-300', 'orange-500'],
-    ['purple-400', 'pink-500', 'red-500'],
-    ['green-600', 'blue-800', 'purple-800'],
+    ['from-blue-400', 'via-teal-400', 'to-purple-500'],
+    ['from-red-600', 'via-yellow-300', 'to-orange-500'],
+    ['from-purple-400', 'via-pink-500', 'to-red-500'],
+    ['from-green-600', 'via-blue-800', 'to-purple-800'],
   ];
-  const directions = ['t', 'tr', 'r', 'br', 'b', 'bl', 'l', 'tl'];
+  const directions = [
+    'bg-gradient-to-t',
+    'bg-gradient-to-tr',
+    'bg-gradient-to-r',
+    'bg-gradient-to-br',
+    'bg-gradient-to-b',
+    'bg-gradient-to-bl',
+    'bg-gradient-to-l',
+    'bg-gradient-to-tl',
+  ];
   const random = seedrandom('this is a good idea');
   const colorScheme = React.useState(colorSchemes[Math.floor(random() * colorSchemes.length)])[0];
   const direction = React.useState(directions[Math.floor(random() * colorSchemes.length)])[0];
@@ -37,10 +46,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <FirebaseContext.Provider value={{ firebase, user }}>
       <ImageContext.Provider value={{ image, setImage, clearImage: () => setImage({}) }}>
-        <div
-          className={`w-full min-h-screen bg-gradient-to-${direction} 
-            from-${colorScheme[0]} via-${colorScheme[1]} to-${colorScheme[2]}`}
-        >
+        <div className={`w-full min-h-screen ${direction} ${colorScheme[0]} ${colorScheme[1]} ${colorScheme[2]}`}>
           <Head>
             <title>Avatar</title>
           </Head>

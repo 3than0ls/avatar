@@ -15,7 +15,7 @@ export default function login() {
     try {
       const { email, password } = e;
       await firebase.signIn({ email, password });
-      router.push('/', undefined, { shallow: true });
+      router.push('/');
     } catch (e) {
       setGeneralError('Username/Password not found or does not exist.');
     }

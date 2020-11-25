@@ -16,7 +16,7 @@ export default function signup() {
     try {
       const { username, email, password } = e;
       await firebase.signUp({ username, email, password });
-      router.push('/', undefined, { shallow: true });
+      router.push('/');
     } catch (e) {
       if (e.response.status === 400) {
         // haha error handling goes brr
