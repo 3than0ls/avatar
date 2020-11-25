@@ -12,10 +12,6 @@ export default function ImageStream({ searchValue }) {
     setQueriedImages(images.filter((image) => image.name.startsWith(searchValue)));
   }, [images, searchValue]);
 
-  React.useEffect(() => {
-    console.log(searchValue, images.length, queriedImages.length);
-  }, [queriedImages]);
-
   const { firebase } = React.useContext(FirebaseContext);
 
   const getImages = React.useCallback(async () => setImages([...images, ...(await firebase.getImages())]));

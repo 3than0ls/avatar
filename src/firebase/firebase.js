@@ -53,11 +53,11 @@ export default class Firebase {
   async create({ name, imageUrl, loading = (snapshot) => {}, onError = (error) => {}, onComplete = () => {} }) {
     const uploadTask = this.storageRef.child(`images/${uuidv4()}/${name}.png`).putString(imageUrl, 'data_url');
     uploadTask.on('state_changed', loading, onError, async () => {
-      onComplete();
       const downloadUrl = await uploadTask.snapshot.ref.getDownloadURL();
-      await this.firestore
+      this.firestore
         .collection('images')
-        .add({ name, imageUrl: downloadUrl, creator: this.auth.currentUser.uid, votes: 0, createdAt: new Date() });
+        .add({ name, imageUrl: downloadUrl, creator: this.auth.currentUser.uid, votes: 0, createdAt: new Date() })
+        .then(() => onComplete());
     });
   }
 
