@@ -1,3 +1,5 @@
+## Avatar
+
 A simple application to view, upload, and edit profile pictures/avatars to be used for social media and other sites.
 
 Made with React and uses Firebase user authentication and Firestore database. Styled with TailwindCSS.
