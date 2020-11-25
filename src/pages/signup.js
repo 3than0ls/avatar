@@ -2,7 +2,6 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import validateEmail from '~/utils/validateEmail';
 import { signupSchema } from '~/schemas/authSchemas';
-import { useRouter } from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FirebaseContext } from '~/firebase';
 

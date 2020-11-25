@@ -1,6 +1,5 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
 import { loginSchema } from '~/schemas/authSchemas';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FirebaseContext } from '~/firebase';

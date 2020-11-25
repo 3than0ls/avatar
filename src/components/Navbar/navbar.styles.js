@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import Button from '../Button/Button';
 
 const Container = styled.div`
-	height: 100px;
+  height: 100px;
 `;
 
 const Navbar = styled.div`
-	${tw`w-full bg-black flex justify-between items-center px-32 fixed top-0 z-30`}
-	height: 100px;
-	max-height: ${(props) => (props.minimized ? '70px' : '100px')};
-	transition: max-height 0.3s ${(props) => (props.minimized ? 'ease-out' : 'ease-in')};
+  ${tw`w-full bg-black flex justify-between items-center px-32 fixed top-0 z-30`}
+  height: 100px;
+  max-height: ${(props) => (props.minimized ? '70px' : '100px')};
+  transition: max-height 0.3s ${(props) => (props.minimized ? 'ease-out' : 'ease-in')};
 `;
 
 const ImgContainer = tw.a`
@@ -18,9 +18,9 @@ const ImgContainer = tw.a`
 `;
 
 const LogoImg = styled.img`
-	${tw`py-3 object-contain hover:cursor-pointer`}
-	height: ${(props) => (props.minimized ? '60px' : '80px')};
-	transition: height 0.3s;
+  ${tw`py-3 object-contain hover:cursor-pointer`}
+  height: ${(props) => (props.minimized ? '60px' : '80px')};
+  transition: height 0.3s;
 `;
 
 const NavbarButtons = tw.div`
