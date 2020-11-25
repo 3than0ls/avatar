@@ -10,13 +10,12 @@ export default function signup() {
   const { register, handleSubmit, errors, setError, clearErrors } = useForm({ resolver: yupResolver(signupSchema) });
   const [generalError, setGeneralError] = React.useState('');
   const { firebase } = React.useContext(FirebaseContext);
-  const router = useRouter();
 
   const onSubmit = React.useCallback(async (e) => {
     try {
       const { username, email, password } = e;
       await firebase.signUp({ username, email, password });
-      router.push('/');
+      window.location.href = '/';
     } catch (e) {
       if (e.response.status === 400) {
         // haha error handling goes brr

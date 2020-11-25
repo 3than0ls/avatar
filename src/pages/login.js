@@ -9,13 +9,12 @@ export default function login() {
   const { register, handleSubmit, errors } = useForm({ resolver: yupResolver(loginSchema) });
   const [generalError, setGeneralError] = React.useState('');
   const { firebase } = React.useContext(FirebaseContext);
-  const router = useRouter();
 
   const onSubmit = React.useCallback(async (e) => {
     try {
       const { email, password } = e;
       await firebase.signIn({ email, password });
-      router.push('/');
+      window.location.href = '/';
     } catch (e) {
       setGeneralError('Username/Password not found or does not exist.');
     }
