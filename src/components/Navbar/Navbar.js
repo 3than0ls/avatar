@@ -27,7 +27,9 @@ export default function Navbar({ onSearch }) {
           minimized ? 'h-16' : 'h-24'
         } w-full bg-white flex justify-between px-4 md:px-16 items-center fixed z-20 transition-all`}
       >
-        <a href="/" className="text-3xl hidden lg:block">Avatar</a>
+        <a href="/" className="text-3xl hidden lg:block">
+          Avatar
+        </a>
         <NavbarSearch minimized={minimized} onSearch={onSearch} />
         <div className="flex flex-row w-64">
           {user === null ? (
