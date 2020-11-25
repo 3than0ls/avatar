@@ -27,6 +27,7 @@ const AvatarEditor = React.forwardRef(({ src, name, className }, ref) => {
         rotate={rotation}
         position={pos}
         border={25}
+        crossOrigin="anonymous"
         borderRadius={radius}
         onPositionChange={positionChange}
       />

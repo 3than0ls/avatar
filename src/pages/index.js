@@ -1,10 +1,12 @@
 import React from 'react';
 import ImageStream from '~components/ImageStream/ImageStream';
+import Tagline from '~components/Tagline/Tagline';
 
-export default function Home() {
+export default function Home({ searchValue }) {
   return (
     <div>
-      <ImageStream />
+      <Tagline />
+      <ImageStream searchValue={searchValue} />
     </div>
   );
 }

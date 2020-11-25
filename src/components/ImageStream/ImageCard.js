@@ -3,7 +3,7 @@ import { ImageContext } from '~/image-context';
 
 export default function ImageCard({ image }) {
   const { setImage } = React.useContext(ImageContext);
-  const { src, name } = image;
+  const { imageUrl, name } = image;
 
   return (
     <div
@@ -12,7 +12,7 @@ export default function ImageCard({ image }) {
     >
       <div className="p-2 m-1 flex flex-col justify-center items-center">
         <div className="flex m-2 rounded-md w-64 h-64">
-          <img src={src} alt={name} className="object-cover w-full h-full rounded-md border-gray-300 border-2" />
+          <img src={imageUrl} alt={name} className="object-cover w-full h-full rounded-md border-gray-300 border-2" />
         </div>
         <div className="p-2 text-center tracking-wide select-none">{name}</div>
       </div>

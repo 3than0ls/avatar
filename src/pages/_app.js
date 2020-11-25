@@ -6,6 +6,7 @@ import ImageModal from '~components/ImageModal/ImageModal';
 import '~/styles/tailwind.css';
 import '~/styles/globals.css';
 import firebase, { FirebaseContext } from '~/firebase';
+import { useRouter } from 'next/router';
 const seedrandom = require('seedrandom');
 
 function MyApp({ Component, pageProps }) {
@@ -22,7 +23,15 @@ function MyApp({ Component, pageProps }) {
 
   const [image, setImage] = React.useState({});
 
-  const [user, setUser] = React.useState({});
+  const [searchValue, setSearchValue] = React.useState('');
+
+  const router = useRouter();
+  const onSearch = (query) => {
+    router.push('/');
+    setSearchValue(query);
+  };
+
+  const [user, setUser] = React.useState(null);
   firebase.auth.onAuthStateChanged((user) => setUser(user));
 
   return (
@@ -36,8 +45,8 @@ function MyApp({ Component, pageProps }) {
             <title>Avatar</title>
           </Head>
           {Object.keys(image).length > 0 && <ImageModal image={image} />}
-          <Navbar />
-          <Component {...pageProps} setImage={setImage} />
+          <Navbar onSearch={onSearch} />
+          <Component {...pageProps} setImage={setImage} searchValue={searchValue} />
         </div>
       </ImageContext.Provider>
     </FirebaseContext.Provider>

@@ -5,7 +5,7 @@ import Button from '~components/common/Button';
 import { useRouter } from 'next/router';
 import { FirebaseContext } from '~/firebase';
 
-export default function Navbar({}) {
+export default function Navbar({ onSearch }) {
   const [minimized, setMinimized] = useState(false);
   useEffect(() => {
     window.onscroll = () => {
@@ -14,42 +14,37 @@ export default function Navbar({}) {
   }, []);
   const router = useRouter();
   const { firebase, user } = React.useContext(FirebaseContext);
-  const [searchValue, setSearchValue] = useState('');
+
+  const signOut = React.useCallback(async () => {
+    await firebase.signOut();
+    router.push('/');
+  });
 
   return (
     <div className="h-24 w-full">
       <div
         className={`${
           minimized ? 'h-16' : 'h-24'
-        } w-full bg-white flex justify-between px-16 items-center fixed z-20 transition-all`}
+        } w-full bg-white flex justify-between px-4 md:px-16 items-center fixed z-20 transition-all`}
       >
-        <Button onClick={async () => firebase.auth.onAuthStateChanged((user) => console.log(user))}>Hi</Button>
-        <Link href="/">
-          <a className="text-3xl">Avatar</a>
-        </Link>
-        <NavbarSearch minimized={minimized} searchValue={searchValue} setSearchValue={setSearchValue} />
-        <div className="flex flex-row w-1/6 ">
-          {!user ? (
+        <a href="/" className="text-3xl hidden lg:block">Avatar</a>
+        <NavbarSearch minimized={minimized} onSearch={onSearch} />
+        <div className="flex flex-row w-64">
+          {user === null ? (
             <>
               <Link href="/login" passHref>
-                <Button className={`w-1/2 ${minimized && 'py-2'} mx-4`}>Log In</Button>
+                <Button className={`w-1/2 ${minimized && 'py-2'} mx-2`}>Log In</Button>
               </Link>
               <Link href="/signup" passHref>
-                <Button className={`w-1/2 ${minimized && 'py-2'} mx-4`}>Sign Up</Button>
+                <Button className={`w-1/2 ${minimized && 'py-2'} mx-2`}>Sign Up</Button>
               </Link>
             </>
           ) : (
             <>
-              <Link href="/post" passHref>
-                <Button className={`w-1/2 ${minimized && 'py-2'} mx-4`}>Post</Button>
+              <Link href="/create" passHref>
+                <Button className={`w-1/2 ${minimized && 'py-2'} mx-2`}>Create</Button>
               </Link>
-              <Button
-                className={`w-1/2 ${minimized && 'py-2'} mx-4`}
-                onClick={async () => {
-                  await firebase.signOut();
-                  router.push('/');
-                }}
-              >
+              <Button className={`w-1/2 ${minimized && 'py-2'} mx-2`} onClick={signOut}>
                 Sign Out
               </Button>
             </>

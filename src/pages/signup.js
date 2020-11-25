@@ -12,7 +12,7 @@ export default function signup() {
   const { firebase } = React.useContext(FirebaseContext);
   const router = useRouter();
 
-  const onSubmit = async (e) => {
+  const onSubmit = React.useCallback(async (e) => {
     try {
       const { username, email, password } = e;
       await firebase.signUp({ username, email, password });
@@ -25,7 +25,7 @@ export default function signup() {
         setGeneralError('Server error, please try again.');
       }
     }
-  };
+  });
 
   return (
     <div className="w-full py-8 text-center flex flex-col items-center">

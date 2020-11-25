@@ -10,7 +10,8 @@ export default function login() {
   const [generalError, setGeneralError] = React.useState('');
   const { firebase } = React.useContext(FirebaseContext);
   const router = useRouter();
-  const onSubmit = async (e) => {
+
+  const onSubmit = React.useCallback(async (e) => {
     try {
       const { email, password } = e;
       await firebase.signIn({ email, password });
@@ -18,7 +19,7 @@ export default function login() {
     } catch (e) {
       setGeneralError('Username/Password not found or does not exist.');
     }
-  };
+  });
 
   return (
     <div className="w-full py-8 text-center flex flex-col items-center">

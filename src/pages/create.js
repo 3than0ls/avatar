@@ -1,12 +1,17 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDropzone } from 'react-dropzone';
+import { FirebaseContext } from '~/firebase';
 import validateImage from '~/utils/validateImage';
 import AvatarEditor from '~components/common/AvatarEditor';
-import imageService from '~/services/imageService';
+import { useRouter } from 'next/router';
 
 export default function Create() {
+  const router = useRouter();
+  const { firebase, user } = React.useContext(FirebaseContext);
   const { register, handleSubmit, setError, setValue, errors, getValues, clearErrors } = useForm();
+  const [generalError, setGeneralError] = React.useState('');
+  const [progress, setProgress] = React.useState(0);
 
   const [imageData, setImageData] = React.useState({
     contentType: '',
@@ -14,44 +19,29 @@ export default function Create() {
     location: null,
   });
 
+  React.useEffect(() => user === null && router.push('/'), []);
+
   const onSubmit = React.useCallback(async (e) => {
     if (!e.name) {
       setError('name', {});
     }
     const canvasImage = editorRef.current.getImageScaledToCanvas().toDataURL();
-    const data = { name: e.name, image: canvasImage };
-    imageService.create(data);
+    await firebase.create({
+      name: e.name,
+      imageUrl: canvasImage,
+      loading: (snapshot) => setProgress((snapshot.bytesTransferred / snapshot.totalBytes) * 100 + '% uploaded.'),
+      onError: (error) => setGeneralError(error),
+      onComplete: () => {
+        setProgress('Complete');
+        window.location.href = '/';
+      },
+    });
   });
 
   const editorRef = React.useRef();
 
   const onDropAccepted = React.useCallback((acceptedFiles) => {
     const acceptedFile = acceptedFiles[0];
-    /*
-    // turns out you really don't need this when you're using AvatarEditor, so here's some legacy code
-    const reader = new FileReader();
-    reader.onabort = reader.onerror = () => {
-      let message = 'The image was not able to load.';
-      setError('upload', { message });
-      setImageData({
-        ...imageData,
-        contentType: 'upload',
-        location: '',
-        preview: '',
-      });
-    };
-    reader.onload = () => {
-      if (!getValues('upload')) {
-        register('upload', {});
-      }
-      clearErrors('upload');
-      clearErrors('link');
-      setValue('link', '');
-      setValue('upload', [reader.result][0], { shouldValidate: true, shouldDirty: true });
-      setImageData({ ...imageData, contentType: 'upload', location: acceptedFile.path, preview: [reader.result] });
-    };
-    reader.readAsDataURL(acceptedFile);
-    */
     if (!getValues('upload')) {
       register('upload', {});
     }
@@ -102,6 +92,7 @@ export default function Create() {
         onSubmit={handleSubmit(onSubmit)}
         className="w-1/2 rounded-lg py-8 mx-auto bg-gray-100 text-center flex flex-col items-center"
       >
+        {generalError && <div className="text-red-500 my-2">{generalError}</div>}
         <label className="w-1/2 text-2xl mb-2">Name</label>
         {errors.name && <div className="text-red-500">Name is required and must be shorter than 64 characters.</div>}
         <input
@@ -148,9 +139,9 @@ export default function Create() {
         {imageData.preview && imageData.location && (
           <div className="w-2/3 my-6 flex flex-col">
             {imageData.contentType === 'upload' ? (
-              <span className="mb-2">{imageData.location}</span>
+              <span className="mb-2 break-words">{imageData.location}</span>
             ) : (
-              <a className="w-full mb-2 text-blue-400" href={imageData.location}>
+              <a className="w-full mb-3 text-blue-400 break-words" href={imageData.location}>
                 {imageData.location}
               </a>
             )}
@@ -169,6 +160,7 @@ export default function Create() {
                 className="mx-auto mt-6 w-1/2 cursor-pointer rounded-lg p-4 hover:font-semibold transition duration-500 ease-in-out bg-blue-300 hover:bg-blue-400 text-black text-center"
               />
             )}
+            {progress !== 0 && <div className="text-2xl mt-2">{progress}</div> /* create progress bar */}
           </div>
         )}
       </form>

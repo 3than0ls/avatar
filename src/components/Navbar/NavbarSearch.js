@@ -2,10 +2,10 @@ import React from 'react';
 import Icon from '~components/common/Icon';
 
 const NavbarSearch = React.forwardRef(function Search(props, ref) {
-  const { minimized, searchValue, setSearchValue } = props;
+  const { minimized, onSearch } = props;
+  const [searchValue, setSearchValue] = React.useState('');
   const search = () => {
-    console.log(searchValue);
-    setSearchValue('');
+    onSearch(searchValue);
   };
 
   return (
